@@ -1,8 +1,8 @@
-# Twitter日本語評判分析データセット：評価用
+# Twitter日本語評判分析データセット：学習用・開発用・評価用
 [Twitter日本語評判分析データセット](http://bigdata.naist.jp/~ysuzuki/data/twitter/)について，ツイート本文を復元した後，BERTモデル評価用に整形したもの
 
 ## 出典
-* Twitter日本語評判分析データセット[Suzuki+, 2017]をクリーニング，分割したもの
+* Twitter日本語評判分析データセット[芥子+, 2017]をクリーニング，分割したもの
 * 以下のエントリを削除
   * 2つ以上の評判極性が付与されている
   * `pos,neg,neutral` 以外の評判極性が付与されている
@@ -35,19 +35,6 @@
 | user_id     | str      | 投稿者のID．Twitterユーザの一意な識別子                                                                 |
 | screen_name | str      | 投稿者のスクリーン名                                                                                    |
 | text        | str      | ツイート本文（改行コードを含む）                                                                        |
-
-## 読み込み
-* 読み込みには `pandas.read_csv()` methodを使用するとよい
-
-```
-import csv
-import pandas as pd
-
-# Python2
-df_corpus = pd.read_csv(PATH, sep="\t", quoting=csv.QUOTE_NONE, encoding="utf-8", dtype=unicode, parse_dates=[4])
-# Python3
-df_corpus = pd.read_csv(PATH, sep="\t", quoting=csv.QUOTE_NONE, encoding="utf-8", dtype=str, parse_dates=[4])
-```
 
 
 

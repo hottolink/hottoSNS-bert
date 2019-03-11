@@ -1,8 +1,9 @@
-# hottoSNS-bert：大規模日本語SNSコーパスによる文分散表現モデル
+
+# hottoSNS-BERT：大規模日本語SNSコーパスによる文分散表現モデル
 
 ## 概要
 * 大規模日本語SNSコーパスによる文分散表現モデル（以下，大規模SNSコーパス）から作成したbertによる文分散表現を構築した
-* 本文分散表現モデル(以下，hottoSNS-bert）は下記登録フォームから登録した方のみに配布する
+* 本文分散表現モデル(以下，hottoSNS-BERT）は下記登録フォームから登録した方のみに配布する
   * [利用規約](#利用規約)は本README.mdの末尾に記載されている．またLICENSE.mdにも同じ内容が記載されている．
 
 [登録フォーム](https://forms.office.com/Pages/ResponsePage.aspx?id=Zpu1Ffmdi02AfxgH3uo25PxaMnBWkvJLsXoQLeuzhoBUNU0zN01BR1VFNk9RSEUxWVRNSzAyWThZNSQlQCN0PWcu)
@@ -75,7 +76,7 @@ sh run_classifier.sh
 * ツイート種別：オーガニックおよびメンション
 
 #### 前処理
-* 文字フィルタ：半角クエスチョンマーク(=絵文字の残骸)・ReTweet記号(RT)・省略記号(...)の除外
+* 文字フィルタ：ReTweet記号(RT)・省略記号(...)の除外
 * 正規化：NFKC正規化，小文字化
 * 特殊トークン化：mention, url
 * 除外：正規化された本文が重複するツイートを削除
@@ -92,7 +93,7 @@ sh run_classifier.sh
 #### 分かち書きコーパスの構築
 * sentencepieceを採用
 * 設定は以下の通り
-* 利用したsentencepieceモデルも配布する
+
 
 |argument|value|
 |--|--|
@@ -120,7 +121,7 @@ sh run_classifier.sh
 
 #### 後処理
 * 短すぎる・少なすぎるツイートを除外
-* 具体的には，以下の条件を満たさないユーザおよびツイートを除外
+* 具体的には，以下に示すしきい値を下回るユーザおよびツイートを除外
 
 |limitation|value|
 |--|--|
@@ -134,11 +135,11 @@ sh run_classifier.sh
 | モデル名                            | 文字正規化 | 特殊トークン化 |  小文字化 | 単語数 | 分かち書き     | 言語 |
 | BERT MultiLingual                   | None                    | no                             | yes            | 119,547 | WordPiece     | multi※ |
 | BERT 日本語Wikipedia                | NFKC                    | no                             | no             | 32,000  | SentencePiece | ja       |
-| BERT 日本語Twitter + Masked LM only | NFKC                    | yes                         | no             | 32,000  | SentencePiece | ja       |
+| hottoSNS-BERT | NFKC                    | yes                         | no             | 32,000  | SentencePiece | ja       |
 
 
 
-※ 104言語が混在．CJK漢字は文字単位，ひらがな・カタカナはサブワード単位で分割．トークン数はそれぞれ，9,512件および，1,322件であった
+
 
 
 #### 統計量
@@ -169,21 +170,18 @@ next sentence predictionはツイートに適用することが難しいため�
 また、事前学習のタスク設定について，各サンプルのtoken数を最大64に制限した．
 
 #### neuralnet architectureの比較
-既存モデルと比較するために，可能な限り条件は共通化した．
 
 | neuralnet architecture                    |         |         |             |         | pre-training  |             |         |           |
 |-------------------------------------------|---------|---------|-------------|---------|---------------|-------------|---------|-----------|
 | モデル名                                  | n_dim_e | n_dim_h | n_attn_head | n_layer | max_pos_embed | max_seq_len | n_batch | n_step    |
 | BERT MultiLingual                         | 768     | 3072    | 12          | 12      | 512           | 512         | 256     | 1,000,000 |
-| BERT 日本語Wikipedia                      | 768     | 3072    | 12          | 12      | 512           | 512※1      | 256※2  | 1,400,000 |
-| BERT 日本語Twitter        | 768     | 3072    | 12          | 12      | 512           | 64          | 512     | 1,000,000 |
+| BERT 日本語Wikipedia                      | 768     | 3072    | 12          | 12      | 512           | 512      | 256  | 1,400,000 |
+| hottoSNS-BERT        | 768     | 3072    | 12          | 12      | 512           | 64          | 512     | 1,000,000 |
 
-※1 128から学習を開始して，段階的に 256 -> 512 と変更した模様
 
-※2 学習が途中から再開されているため，詳細は不明
 
 #### 学習環境
-* BERTにはTPUが適しているため，Google Computing Platformを使用
+* Google Computing Platform の Cloud TPU を使用．詳細は以下の通り
 * neuralnet framework は TensorFlow 1.12.0 を使用
 * 詳細は以下の通り
     * CPU：n1-standard-2（vCPU x 2、メモリ 7.5 GB）
@@ -213,14 +211,12 @@ next sentence predictionはツイートに適用することが難しいため�
 	* task type：日本語ツイートの評判分析；Positive/Negative/Neutral の3値分類
 	* task dataset
 		1. Twitter日本語評判分析データセット[芥子+, 2017]
-		2. 内製のTwitter評判分析データセット(=Twitter大規模トピックコーパス)
+		2. 内製のデータセット
 	* methodology
 		* task dataset を train:test = 9:1 に分割
 		* hyper-parameter は，BERT論文[Devlin+, 2018] に準拠
-		* 学習および評価を10回繰り返して，平均値および標準偏差を報告
+		* 学習および評価を7回繰り返して，平均値を報告
 	* evaluation metric：accuracy および macro F-value
-
-* 4種類のモデル x 2種類のデータセット = 8通りの実験結果 を報告する．
 
 ```
 芥子 育雄, 鈴木 優, 吉野 幸一郎, グラム ニュービッグ, 大原 一人, 向井 理朗, 中村 哲: 「単語意味ベクトル辞書を用いたTwitterからの日本語評判情報抽出」， 電子情報通信学会論文誌, Vol.J100-D, No.4, pp.530-543, 2017.4.
@@ -235,7 +231,7 @@ next sentence predictionはツイートに適用することが難しいため�
 | モデル名                            | accuracy | F-value                           | accuracy | F-value |
 | BERT MultiLingual                   | 0.7019   | 0.7011                            | 0.8776   | 0.7225  |
 | BERT 日本語Wikipedia                | 0.7237   | 0.7239                            | 0.8790   | 0.7359  |
-| BERT 日本語SNS| 0.7387   | 0.7396                            | 0.8880   | 0.7503  |
+| hottoSNS-BERT| 0.7387   | 0.7396                            | 0.8880   | 0.7503  |
 
 下記のような結果であると言える．
 
