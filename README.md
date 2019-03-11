@@ -220,6 +220,7 @@ next sentence predictionはツイートに適用することが難しいため�
 
 ```
 芥子 育雄, 鈴木 優, 吉野 幸一郎, グラム ニュービッグ, 大原 一人, 向井 理朗, 中村 哲: 「単語意味ベクトル辞書を用いたTwitterからの日本語評判情報抽出」， 電子情報通信学会論文誌, Vol.J100-D, No.4, pp.530-543, 2017.4.
+Devlin, Jacob and Chang, Ming-Wei and Lee, Kenton and Toutanova, Kristina: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", arXiv preprint arXiv:1810.04805,2018
 ```
 
 
