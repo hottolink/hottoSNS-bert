@@ -57,7 +57,7 @@ cp -r [Multilingual model dir]/* ./trained_model/multi_cased_L-12_H-768_A-12/
 # ※テキストファイルから分散表現を読み込むため、実行に時間がかかります。
 sh setup.sh
 cd src
-sh batch_run_classifier.sh 
+sh run_classifier.sh 
 
 ```
 
