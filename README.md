@@ -40,7 +40,7 @@
 
 
 #### 付属評価コードの利用準備
-`./hottoSNS-bert/evaluation_dataset/twitter_sentiment/`以下に[Twitter日本語評判分析データセット](http://bigdata.naist.jp/~ysuzuki/data/twitter/)からツイートを再現し，BERTモデル評価用に加工したデータが必要．詳細は[/hottoSNS-bert/evaluation_dataset/twitter_sentiment/README.md]()参照．
+`./hottoSNS-bert/evaluation_dataset/twitter_sentiment/`以下に[Twitter日本語評判分析データセット](http://bigdata.naist.jp/~ysuzuki/data/twitter/)からツイートを再現し，BERTモデル評価用に加工したデータが必要．詳細は[hottoSNS-bert/evaluation_dataset/twitter_sentiment/](https://github.com/hottolink/hottoSNS-bert/tree/master/evaluation_dataset/twitter_sentiment)参照．
 #### 付属評価コードの利用方法
 ```
 # リポジトリのClone
