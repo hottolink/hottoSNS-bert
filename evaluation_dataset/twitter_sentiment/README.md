@@ -44,9 +44,9 @@ import csv
 import pandas as pd
 
 # Python2
-df_corpus = pd.read_csv(PATH, header=0, sep="\t", quoting=csv.QUOTE_NONE, encoding="utf-8", dtype=unicode, parse_dates=[4])
+df_corpus = pd.read_csv(PATH, sep="\t", quoting=csv.QUOTE_NONE, encoding="utf-8", dtype=unicode, parse_dates=[4])
 # Python3
-df_corpus = pd.read_csv(PATH, header=0, sep="\t", quoting=csv.QUOTE_NONE, encoding="utf-8", dtype=str, parse_dates=[4])
+df_corpus = pd.read_csv(PATH, sep="\t", quoting=csv.QUOTE_NONE, encoding="utf-8", dtype=str, parse_dates=[4])
 ```
 
 
