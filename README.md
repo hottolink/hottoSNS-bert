@@ -11,10 +11,23 @@
 
 <img src="https://github.com/hottolink/hottoSNS-bert/blob/master/images/QR_hottoSNS-bert.png" width="128">
 
+
+### 引用について
+* 本モデルに関する論文発表は未公開です．引用される方は，以下のbibtexをご利用ください．
+```
+@article{hottoSNS-bert,
+  author = {Takeshi, Sakaki and Sakae, Mizuki and Naoyuki, Gunji},
+  title = {BERT Pre-trained model Trained on Large-scale Japanese Social Media Corpus},
+  year = {2019},
+  howpublished = {\url{https://github.com/hottolink/hottoSNS-bert}}
+}
+```
+
 <!-- TOC -->
 
 - [hottoSNS-BERT：大規模日本語SNSコーパスによる文分散表現モデル](#hottosns-bert大規模日本語snsコーパスによる文分散表現モデル)
     - [概要](#概要)
+    	- [引用について](#引用について)
     - [配布リソースに関する説明](#配布リソースに関する説明)
         - [大規模日本語SNSコーパス](#大規模日本語snsコーパス)
         - [ファイル構成](#ファイル構成)
@@ -96,7 +109,6 @@ sh run_classifier.sh
 
 #### モデルの読み込み方法
 サンプルコードを参照してください。
-
 
 ## 配布リソースの構築手順
 ### コーパス・単語分散表現の構築方法
