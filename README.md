@@ -16,7 +16,7 @@
 * 本モデルに関する論文発表は未公開です．引用される方は，以下のbibtexをご利用ください．
 ```
 @article{hottoSNS-bert,
-  author = {Takeshi, Sakaki and Sakae, Mizuki and Naoyuki, Gunji},
+  author = Sakaki， Takeshi and Mizuki, Sakae and Gunji, Naoyuki},
   title = {BERT Pre-trained model Trained on Large-scale Japanese Social Media Corpus},
   year = {2019},
   howpublished = {\url{https://github.com/hottolink/hottoSNS-bert}}
