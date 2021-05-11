@@ -316,7 +316,7 @@ Devlin, Jacob and Chang, Ming-Wei and Lee, Kenton and Toutanova, Kristina: "BERT
         normalizer= normalizer.twitter_normalizer_for_bert_encoder,
         do_lower_case=False)
     ```
-1. tokenizeの実行例
+1. tokenizeの実行例
     ```
     # 例文
     text = '@test ゆめさんが、ファボしてくるあたり、世代だなって思いました(   ̇- ̇  )笑 http://test.com/test.html'
