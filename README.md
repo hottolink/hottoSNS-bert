@@ -52,6 +52,7 @@
         - [評価用データセット](#評価用データセット)
         - [downstream task: fine-tuning](#downstream-task-fine-tuning)
         - [実験結果](#実験結果)
+    - [pytorch-transformersからの利用](#pytorch-transformersからの利用)
     - [利用規約](#利用規約)
 
 <!-- /TOC -->
@@ -285,7 +286,54 @@ Devlin, Jacob and Chang, Ming-Wei and Lee, Kenton and Toutanova, Kristina: "BERT
 * Multilingual < 日本語Wikipediaであることから日本語を対象としたdownstreamタスクでは，日本語(の語彙)に特化した分かち書き方法および，日本語のコーパスを用いた事前学習の方が適していると考えられる
 * 日本語Wikipedia < 日本語SNS であることから，Twitterを対象としたdownstreamタスクでは、日本語Wikipediaよりもドメインに特化した大規模日本語SNSコーパスで学習したBERTモデルの方が良い性能が得られると考えられる
 
+## pytorch-transformersからの利用
+* pytorch 1.8.1+cu102, tensorflow 2.4.1での動作例
+1. hottoSNS-bertの読み込み
+    ```
+    # pytorch-transformers, tensorflowの読み込み
+    import os, sys
+    from transformers import BertForPreTraining, BertTokenizer
+    import tensorflow as tf
 
+    # hottoSNS-bertの読み込み
+    sys.path.append("./hottoSNS-bert/src/")
+    import tokenization
+    from preprocess import normalizer
+    ```
+1. 必要なファイルの指定
+    ```
+    bert_model_dir = "./hottoSNS-bert/trained_model/masked_lm_only_L-12_H-768_A-12/"
+    config_file = os.path.join(bert_model_dir, "bert_config.json")
+    vocab_file = os.path.join(bert_model_dir, "tokenizer_spm_32K.vocab.to.bert")
+    sp_model_file = os.path.join(bert_model_dir, "tokenizer_spm_32K.model")
+    bert_model_file = os.path.join(bert_model_dir, "model.ckpt-1000000.index")
+    ```
+1. tokenizerのインスタンス化
+    ```
+    tokenizer = tokenization.JapaneseTweetTokenizer(
+        vocab_file=vocab_file,
+        model_file=model_file,
+        normalizer= normalizer.twitter_normalizer_for_bert_encoder,
+        do_lower_case=False)
+    ```
+1. tokenizeの実行例
+    ```
+    # 例文
+    text = '@test ゆめさんが、ファボしてくるあたり、世代だなって思いました(   ̇- ̇  )笑 http://test.com/test.html'
+    # tokenize
+    words = tokenizer.tokenize(text)
+    print(words)
+    # ['<mention>', '▁', 'ゆめ', 'さんが', '、', 'ファボ', 'してくる', 'あたり', '、', '世代', 'だ', 'なって思いました', '(', '▁̇', '-', '▁̇', '▁', ')', '笑', '▁', '<url>']
+    # idへ変換
+    tokenizer.convert_tokens_to_ids(["[CLS]"]+words+["[SEP]"])
+    # [2, 6, 7, 6372, 348, 8, 5249, 2135, 1438, 8, 3785, 63, 28146, 12, 112, 93, 112, 7, 13, 31, 7, 5, 3]
+
+    ```
+
+1. pretrainモデルの読み込み
+    ```
+    model = BertForPreTraining.from_pretrained(bert_model_file, from_tf=True, config=config_file)
+    ```
 
 
 ## 利用規約
