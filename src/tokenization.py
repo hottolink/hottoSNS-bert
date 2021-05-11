@@ -72,7 +72,7 @@ def load_vocab(vocab_file):
   """Loads a vocabulary file into a dictionary."""
   vocab = collections.OrderedDict()
   index = 0
-  with tf.gfile.GFile(vocab_file, "r") as reader:
+  with tf.io.gfile.GFile(vocab_file, "r") as reader:
     while True:
       token = convert_to_unicode(reader.readline())
       if not token:
@@ -342,7 +342,7 @@ class JapaneseTweetTokenizer(object):
     """Converts a sequence of [tokens|ids] using the vocab."""
     output = []
     for item in items:
-      output.append(vocab.get(item, vocab['<unk>']))
+      output.append(vocab.get(item, vocab.get('<unk>', '<unk>')))
     return output
 
 def _is_whitespace(char):
