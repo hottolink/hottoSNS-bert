@@ -23,6 +23,7 @@ import unicodedata
 import six
 import tensorflow as tf
 import sentencepiece as spm
+from distutils.version import LooseVersion
 
 
 def convert_to_unicode(text):
@@ -72,7 +73,14 @@ def load_vocab(vocab_file):
   """Loads a vocabulary file into a dictionary."""
   vocab = collections.OrderedDict()
   index = 0
-  with tf.gfile.GFile(vocab_file, "r") as reader:
+  # switch depending on the tf major version
+  is_tensorflow_ver_2 = LooseVersion(tf.__version__) >= LooseVersion("2.0.0")
+  if is_tensorflow_ver_2:
+    GFile = tf.io.gfile.GFile
+  else:
+    GFile = tf.gfile.GFile
+
+  with GFile(vocab_file, "r") as reader:
     while True:
       token = convert_to_unicode(reader.readline())
       if not token:
@@ -342,7 +350,7 @@ class JapaneseTweetTokenizer(object):
     """Converts a sequence of [tokens|ids] using the vocab."""
     output = []
     for item in items:
-      output.append(vocab.get(item, vocab['<unk>']))
+      output.append(vocab.get(item, vocab.get('<unk>', '<unk>')))
     return output
 
 def _is_whitespace(char):
