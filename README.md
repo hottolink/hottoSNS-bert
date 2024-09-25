@@ -239,7 +239,7 @@ next sentence predictionはツイートに適用することが難しいため�
 ### 評価用データセット
 * ツイート評判分析をdownstreamタスクとして、構築したBERTモデルの評価を行う．
 * 評判分析タスクは，2種類のデータセットを用いて評価する
-	1. [Twitter日本語評判分析データセット](http://bigdata.naist.jp/~ysuzuki/data/twitter/)[芥子+, 2017]
+	1. [Twitter日本語評判分析データセット](https://www.db.info.gifu-u.ac.jp/sentiment_analysis/)[芥子+, 2017]
 		* サンプル数：161K
 	2. 内製のデータセット；Twitter大規模トピックコーパス
 		* サンプル数：12K
